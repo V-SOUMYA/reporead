@@ -23,7 +23,7 @@ body {
     font-size: 64px;
     margin-bottom: 16px;
     font-weight: 700;
-    font-family: "Roboto Mono", monospace;
+    font-family: "Ropa Sans", sans-serif;
 }
 
 .tagline {
@@ -269,3 +269,4 @@ button:hover {
     transform: scale(1);
   }
 }
+
