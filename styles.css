@@ -2,32 +2,58 @@
     box-sizing: border-box;
 }
 
+/* body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: radial-gradient(circle at top, #111 0%, #000 60%);
+    color: #fff;
+    min-height: 100vh; 
+} */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    /* background: radial-gradient(circle at top, #111 0%, #000 60%);
-    color: #fff;
-    min-height: 100vh; */
 
-
-    background: radial-gradient(
+  background: radial-gradient(
   circle at center,
   #4e5132 0%,
   #525722 10%,
   #2e320a 20%,
   #000 40%
-);
+  );
 
+  background-repeat: no-repeat;   
+  background-attachment: fixed;   
+  background-size: cover;          
+
+  color: #fff;
+  min-height: 100vh;
 }
 
 
 
+
 /* HERO SECTION */
-.hero {
+/* .hero {
     max-width: 900px;
     margin: 0 auto;
     padding: 60px 20px 50px;
     text-align: center;
+} */
+
+.hero {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(40px, 8vh, 80px) 20px;
+  text-align: center;
+  flex: 1; 
 }
 
 
@@ -35,7 +61,7 @@ body {
     font-size: 64px;
     margin-bottom: 16px;
     font-weight: 700;
-    font-family: "Roboto Mono", monospace;
+     font-family: "Montserrat", sans-serif;
     color: #fff;
 }
 
