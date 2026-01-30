@@ -3,12 +3,24 @@
 }
 
 body {
-    margin: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    background: radial-gradient(circle at top, #111 0%, #000 60%);
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    /* background: radial-gradient(circle at top, #111 0%, #000 60%);
     color: #fff;
-    min-height: 100vh;
+    min-height: 100vh; */
+
+
+    background: radial-gradient(
+  circle at center,
+  #4e5132 0%,
+  #525722 10%,
+  #2e320a 20%,
+  #000 40%
+);
+
 }
+
+
 
 /* HERO SECTION */
 .hero {
@@ -23,7 +35,8 @@ body {
     font-size: 64px;
     margin-bottom: 16px;
     font-weight: 700;
-    font-family: "Ropa Sans", sans-serif;
+    font-family: "Roboto Mono", monospace;
+    color: #fff;
 }
 
 .tagline {
@@ -69,7 +82,7 @@ body {
 .repo-input:hover,
 .repo-input:focus {
     border: 2px solid #8BAE66;
-    box-shadow: 0 0 0 6px rgba(212, 255, 0, 0.25);
+    box-shadow: 0 0 0 6px rgba(102, 121, 3, 0.25);
     background-color: #0f0f0f;
 }
 
@@ -269,4 +282,3 @@ button:hover {
     transform: scale(1);
   }
 }
-
