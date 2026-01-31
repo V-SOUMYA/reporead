@@ -52,12 +52,3 @@ return {
         "files": explain_files(file_list),
     }
 }
-
-    
-
-
-
-
-
-
-
