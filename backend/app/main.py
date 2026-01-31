@@ -38,13 +38,23 @@ async def analyze_repo(payload: dict):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return {
-        "overview": metadata,
-        "structure": {
-            "folders": tree["folders"][:20],
-            "files": tree["files"][:20],
-        },
+    folder_list = tree["folders"][:20]
+file_list = tree["files"][:20]
+
+return {
+    "overview": metadata,
+    "structure": {
+        "folders": folder_list,
+        "files": file_list,
+    },
+    "explanations": {
+        "folders": explain_folders(folder_list),
+        "files": explain_files(file_list),
     }
+}
+
+    }
+
 
 
 
