@@ -9,7 +9,6 @@ from app.github import (
 )
 
 
-
 app = FastAPI(title="reporead backend")
 
 app.add_middleware(
@@ -39,9 +38,9 @@ async def analyze_repo(payload: dict):
         raise HTTPException(status_code=400, detail=str(e))
 
     folder_list = tree["folders"][:20]
-file_list = tree["files"][:20]
+    file_list = tree["files"][:20]
 
-return {
+    return {
     "overview": metadata,
     "structure": {
         "folders": folder_list,
