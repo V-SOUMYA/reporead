@@ -78,3 +78,29 @@ async def fetch_repo_tree(owner: str, repo: str, branch: str = "main"):
         "files": files,
         "folders": sorted(folders),
     }
+
+FOLDER_RULES = {
+    "src": "Main source code of the project",
+    "app": "Core application logic",
+    "apps": "Application modules",
+    "lib": "Reusable library code",
+    "tests": "Automated tests for the project",
+    "test": "Automated tests for the project",
+    "docs": "Documentation and guides",
+    "examples": "Example usage or demo code",
+    "scripts": "Utility or helper scripts",
+    "config": "Configuration files",
+    ".github": "GitHub configuration such as workflows and templates",
+}
+
+FILE_RULES = {
+    "README.md": "Project overview, setup instructions, and usage details",
+    "README.rst": "Project overview and documentation",
+    "LICENSE": "License information for the project",
+    "requirements.txt": "Python dependencies required to run the project",
+    "pyproject.toml": "Project configuration and dependency management",
+    "package.json": "Project metadata and JavaScript dependencies",
+    "setup.py": "Python package setup configuration",
+    ".gitignore": "Files and folders ignored by version control",
+}
+
