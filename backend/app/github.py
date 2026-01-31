@@ -104,3 +104,30 @@ FILE_RULES = {
     ".gitignore": "Files and folders ignored by version control",
 }
 
+def explain_folders(folders: list[str]) -> dict:
+    explanations = {}
+
+    for folder in folders:
+        key = folder.split("/")[0]  # top-level folder
+        explanation = FOLDER_RULES.get(
+            key,
+            "Project-specific folder"
+        )
+        explanations[folder] = explanation
+
+    return explanations
+
+
+def explain_files(files: list[str]) -> dict:
+    explanations = {}
+
+    for file in files:
+        name = file.split("/")[-1]
+        explanation = FILE_RULES.get(
+            name,
+            "Project-specific file"
+        )
+        explanations[file] = explanation
+
+    return explanations
+
