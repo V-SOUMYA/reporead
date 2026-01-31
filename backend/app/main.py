@@ -6,9 +6,10 @@ from app.github import (
     fetch_repo_tree,
     explain_folders,
     explain_files,
-    fetch_readme
+    fetch_readme,
+    fetch_good_first_issues,
+    generate_contribution_ideas
 )
-
 
 
 app = FastAPI(title="reporead backend")
@@ -37,12 +38,24 @@ async def analyze_repo(payload: dict):
         metadata = await fetch_repo_metadata(owner, repo)
         tree = await fetch_repo_tree(owner, repo)
         readme = await fetch_readme(owner, repo)
+        issues = await fetch_good_first_issues(owner, repo)
+
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
     folder_list = tree["folders"][:20]
     file_list = tree["files"][:20]
+
+    contribution_ideas = []
+
+    if not issues:
+      contribution_ideas = generate_contribution_ideas(
+        files=file_list,
+        folders=folder_list,
+        readme_exists=readme is not None
+    )
+
 
     return {
     "overview": metadata,
@@ -57,10 +70,10 @@ async def analyze_repo(payload: dict):
     "readme": {
         "exists": readme is not None,
         "content_preview": readme[:1000] if readme else None
-    }
+    },
+    "issues": {
+        "count": len(issues),
+        "items": issues
+    },
+    "contribution_ideas": contribution_ideas
 }
-
-
-
-
-
