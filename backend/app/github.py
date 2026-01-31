@@ -1,4 +1,8 @@
 from urllib.parse import urlparse
+import httpx
+
+GITHUB_API = "https://api.github.com"
+
 
 def parse_repo_url(repo_url: str):
     """
@@ -22,10 +26,6 @@ def parse_repo_url(repo_url: str):
         raise ValueError("Invalid GitHub repository URL")
 
 
-import httpx
-
-GITHUB_API = "https://api.github.com"
-
 async def fetch_repo_metadata(owner: str, repo: str):
     url = f"{GITHUB_API}/repos/{owner}/{repo}"
 
@@ -43,12 +43,9 @@ async def fetch_repo_metadata(owner: str, repo: str):
         "language": data["language"],
         "stars": data["stargazers_count"],
         "forks": data["forks_count"],
-        "html_url": data["html_url"]
+        "html_url": data["html_url"],
     }
 
-import httpx
-
-GITHUB_API = "https://api.github.com"
 
 async def fetch_repo_tree(owner: str, repo: str, branch: str = "main"):
     """
@@ -59,7 +56,7 @@ async def fetch_repo_tree(owner: str, repo: str, branch: str = "main"):
     async with httpx.AsyncClient() as client:
         response = await client.get(url)
 
-    # Some repos still use 'master'
+    # fallback for repos using 'master'
     if response.status_code == 404 and branch == "main":
         return await fetch_repo_tree(owner, repo, branch="master")
 
@@ -79,5 +76,5 @@ async def fetch_repo_tree(owner: str, repo: str, branch: str = "main"):
 
     return {
         "files": files,
-        "folders": sorted(list(folders))
+        "folders": sorted(folders),
     }
