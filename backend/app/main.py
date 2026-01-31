@@ -26,9 +26,16 @@ async def analyze_repo(payload: dict):
     try:
         owner, repo = repo_url.rstrip("/").split("/")[-2:]
         metadata = await fetch_repo_metadata(owner, repo)
-    except Exception:
-        raise HTTPException(status_code=404, detail="Repository not found")
+        tree = await fetch_repo_tree(owner, repo)
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
     return {
-        "overview": metadata
+        "overview": metadata,
+        "structure": {
+            "folders": tree["folders"][:20],  # limit for now
+            "files": tree["files"][:20]
+        }
     }
+
+
