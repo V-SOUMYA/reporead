@@ -1,6 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from app.github import fetch_repo_metadata, fetch_repo_tree
+from app.github import (
+    parse_repo_url,
+    fetch_repo_metadata,
+    fetch_repo_tree
+)
+
 
 app = FastAPI(title="reporead backend")
 
@@ -37,5 +42,6 @@ async def analyze_repo(payload: dict):
             "files": tree["files"][:20]
         }
     }
+
 
 
