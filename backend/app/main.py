@@ -5,8 +5,10 @@ from app.github import (
     fetch_repo_metadata,
     fetch_repo_tree,
     explain_folders,
-    explain_files
+    explain_files,
+    fetch_readme
 )
+
 
 
 app = FastAPI(title="reporead backend")
@@ -34,6 +36,8 @@ async def analyze_repo(payload: dict):
         owner, repo = parse_repo_url(repo_url)
         metadata = await fetch_repo_metadata(owner, repo)
         tree = await fetch_repo_tree(owner, repo)
+        readme = await fetch_readme(owner, repo)
+
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -49,32 +53,14 @@ async def analyze_repo(payload: dict):
     "explanations": {
         "folders": explain_folders(folder_list),
         "files": explain_files(file_list),
+    },
+    "readme": {
+        "exists": readme is not None,
+        "content_preview": readme[:1000] if readme else None
     }
 }
 
-async def fetch_readme(owner: str, repo: str):
-    """
-    Fetch README content from GitHub.
-    """
-    url = f"{GITHUB_API}/repos/{owner}/{repo}/readme"
 
-    async with httpx.AsyncClient() as client:
-        response = await client.get(url)
 
-    if response.status_code != 200:
-        return None
 
-    data = response.json()
-    download_url = data.get("download_url")
-
-    if not download_url:
-        return None
-
-    async with httpx.AsyncClient() as client:
-        readme_response = await client.get(download_url)
-
-    if readme_response.status_code != 200:
-        return None
-
-    return readme_response.text
 
