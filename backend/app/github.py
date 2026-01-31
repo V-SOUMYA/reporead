@@ -156,3 +156,95 @@ async def fetch_readme(owner: str, repo: str):
         return None
 
     return readme_response.text
+
+BEGINNER_LABELS = {
+    "good first issue",
+    "good-first-issue",
+    "help wanted",
+    "beginner",
+    "easy",
+    "starter",
+}
+
+async def fetch_good_first_issues(owner: str, repo: str, limit: int = 10):
+    """
+    Fetch beginner-friendly issues from a GitHub repository.
+    """
+    url = f"{GITHUB_API}/repos/{owner}/{repo}/issues"
+
+    params = {
+        "state": "open",
+        "per_page": 50,
+    }
+
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url, params=params)
+
+    if response.status_code != 200:
+        return []
+
+    issues = response.json()
+    beginner_issues = []
+
+    for issue in issues:
+        # Skip pull requests (GitHub returns PRs as issues)
+        if "pull_request" in issue:
+            continue
+
+        labels = {label["name"].lower() for label in issue.get("labels", [])}
+
+        if labels & BEGINNER_LABELS:
+            beginner_issues.append({
+                "title": issue["title"],
+                "url": issue["html_url"],
+                "labels": list(labels),
+                "comments": issue["comments"],
+                "created_at": issue["created_at"],
+            })
+
+        if len(beginner_issues) >= limit:
+            break
+
+    return beginner_issues
+
+def generate_contribution_ideas(
+    files: list[str],
+    folders: list[str],
+    readme_exists: bool
+):
+    ideas = []
+
+    if readme_exists:
+        ideas.append({
+            "title": "Improve project documentation",
+            "description": "Clarify or expand sections in the README to help new users get started."
+        })
+    else:
+        ideas.append({
+            "title": "Add a README file",
+            "description": "Create a README explaining what the project does and how to run it."
+        })
+
+    if "tests" in folders or any("tests/" in f for f in files):
+        ideas.append({
+            "title": "Add or improve tests",
+            "description": "Add tests for untested functionality or improve existing test coverage."
+        })
+
+    if "examples" in folders:
+        ideas.append({
+            "title": "Improve examples",
+            "description": "Add comments or simplify example code to make it easier to understand."
+        })
+
+    ideas.append({
+        "title": "Improve code readability",
+        "description": "Add docstrings, comments, or rename variables for clarity."
+    })
+
+    ideas.append({
+        "title": "Improve error messages",
+        "description": "Make error messages more descriptive and beginner-friendly."
+    })
+
+    return ideas
