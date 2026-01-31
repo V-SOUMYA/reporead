@@ -55,3 +55,38 @@ function hideLoading() {
   if (loader) loader.style.display = "none";
 }
 
+function renderResult(data) {
+  const container = document.getElementById("result");
+  container.innerHTML = "";
+
+  // Overview
+  container.innerHTML += `
+    <h2>${data.overview.name}</h2>
+    <p>${data.overview.description}</p>
+    <p>⭐ ${data.overview.stars} · 🍴 ${data.overview.forks}</p>
+    <hr />
+  `;
+
+  // Folder explanations
+  container.innerHTML += `<h3>Project Structure</h3>`;
+  for (const [folder, explanation] of Object.entries(data.explanations.folders)) {
+    container.innerHTML += `
+      <p><strong>${folder}</strong>: ${explanation}</p>
+    `;
+  }
+
+  // Contribution ideas
+  if (data.contribution_ideas && data.contribution_ideas.length > 0) {
+    container.innerHTML += `<h3>Suggested Contributions</h3>`;
+    data.contribution_ideas.forEach(idea => {
+      container.innerHTML += `
+        <div>
+          <strong>${idea.title}</strong>
+          <p>${idea.description}</p>
+        </div>
+      `;
+    });
+  }
+}
+
+
