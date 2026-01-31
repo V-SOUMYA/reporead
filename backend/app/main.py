@@ -51,3 +51,30 @@ async def analyze_repo(payload: dict):
         "files": explain_files(file_list),
     }
 }
+
+async def fetch_readme(owner: str, repo: str):
+    """
+    Fetch README content from GitHub.
+    """
+    url = f"{GITHUB_API}/repos/{owner}/{repo}/readme"
+
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+
+    if response.status_code != 200:
+        return None
+
+    data = response.json()
+    download_url = data.get("download_url")
+
+    if not download_url:
+        return None
+
+    async with httpx.AsyncClient() as client:
+        readme_response = await client.get(download_url)
+
+    if readme_response.status_code != 200:
+        return None
+
+    return readme_response.text
+
