@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from app.github import parse_repo_url
+from app.github import fetch_repo_metadata, fetch_repo_tree
 
 app = FastAPI(title="reporead backend")
 
@@ -17,19 +17,18 @@ def health_check():
     return {"status": "reporead backend running"}
 
 @app.post("/analyze-repo")
-def analyze_repo(payload: dict):
+async def analyze_repo(payload: dict):
     repo_url = payload.get("repo_url")
 
     if not repo_url:
         raise HTTPException(status_code=400, detail="repo_url is required")
 
     try:
-        owner, repo = parse_repo_url(repo_url)
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        owner, repo = repo_url.rstrip("/").split("/")[-2:]
+        metadata = await fetch_repo_metadata(owner, repo)
+    except Exception:
+        raise HTTPException(status_code=404, detail="Repository not found")
 
     return {
-        "owner": owner,
-        "repo": repo,
-        "message": "GitHub URL parsed successfully"
+        "overview": metadata
     }
