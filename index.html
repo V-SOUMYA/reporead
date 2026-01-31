@@ -28,6 +28,12 @@
 
         <div class="input-row">
             <input type="text" id="repo-input" class="repo-input" placeholder="https://github.com/owner/repo" />
+            <div id="loading" style="display:none; margin-top:20px;">
+                Analyzing repository...
+            </div>
+
+            <div id="result" style="margin-top:40px;"></div>
+
 
             <button class="analyze-btn" onclick="analyzeRepo()">
                 <span>Analyze Repository</span>
