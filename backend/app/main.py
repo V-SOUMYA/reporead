@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from app.structure import build_project_structure
 from app.github import (
     parse_repo_url,
     fetch_repo_metadata,
@@ -77,3 +78,4 @@ async def analyze_repo(payload: dict):
     },
     "contribution_ideas": contribution_ideas
 }
+
