@@ -15,9 +15,6 @@ from app.contributions import generate_contribution_paths
 
 app = FastAPI(title="reporead backend")
 
-# -----------------------------
-# CORS
-# -----------------------------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -26,16 +23,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# -----------------------------
-# Health check
-# -----------------------------
 @app.get("/")
 def health_check():
     return {"status": "reporead backend running"}
 
-# -----------------------------
-# Main endpoint
-# -----------------------------
 @app.post("/analyze-repo")
 async def analyze_repo(payload: dict):
     repo_url = payload.get("repo_url")
@@ -49,41 +40,27 @@ async def analyze_repo(payload: dict):
         tree = await fetch_repo_tree(owner, repo)
         readme = await fetch_readme(owner, repo)
         issues = await fetch_good_first_issues(owner, repo)
-
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    # -----------------------------
-    # Derived data
-    # -----------------------------
     folder_list = tree["folders"][:20]
     file_list = tree["files"][:20]
 
     project_structure = build_project_structure(folder_list)
 
-    # -----------------------------
-    # Contribution paths (only if no issues)
-    # -----------------------------
     contribution_paths = []
-
-    if not issues:
+    if len(issues) == 0:
         contribution_paths = generate_contribution_paths(
             folders=folder_list,
             files=file_list,
             readme_exists=readme is not None
         )
 
-    # -----------------------------
-    # Response
-    # -----------------------------
     return {
         "overview": metadata,
 
         "project_structure": {
-            "guide": (
-                "If you’re new, start with documentation or examples "
-                "before exploring core code."
-            ),
+            "guide": "If you’re new, start with documentation or examples before exploring core code.",
             "groups": project_structure
         },
 
