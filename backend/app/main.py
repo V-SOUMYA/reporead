@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+
 from app.structure import build_project_structure
 from app.github import (
     parse_repo_url,
@@ -8,13 +9,15 @@ from app.github import (
     explain_folders,
     explain_files,
     fetch_readme,
-    fetch_good_first_issues,
-    generate_contribution_ideas
+    fetch_good_first_issues
 )
-
+from app.contributions import generate_contribution_paths
 
 app = FastAPI(title="reporead backend")
 
+# -----------------------------
+# CORS
+# -----------------------------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -23,10 +26,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# -----------------------------
+# Health check
+# -----------------------------
 @app.get("/")
 def health_check():
     return {"status": "reporead backend running"}
 
+# -----------------------------
+# Main endpoint
+# -----------------------------
 @app.post("/analyze-repo")
 async def analyze_repo(payload: dict):
     repo_url = payload.get("repo_url")
@@ -41,41 +50,62 @@ async def analyze_repo(payload: dict):
         readme = await fetch_readme(owner, repo)
         issues = await fetch_good_first_issues(owner, repo)
 
-
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+    # -----------------------------
+    # Derived data
+    # -----------------------------
     folder_list = tree["folders"][:20]
     file_list = tree["files"][:20]
 
-    contribution_ideas = []
+    project_structure = build_project_structure(folder_list)
+
+    # -----------------------------
+    # Contribution paths (only if no issues)
+    # -----------------------------
+    contribution_paths = []
 
     if not issues:
-      contribution_ideas = generate_contribution_ideas(
-        files=file_list,
-        folders=folder_list,
-        readme_exists=readme is not None
-    )
+        contribution_paths = generate_contribution_paths(
+            folders=folder_list,
+            files=file_list,
+            readme_exists=readme is not None
+        )
 
-
+    # -----------------------------
+    # Response
+    # -----------------------------
     return {
-    "overview": metadata,
-    "structure": {
-        "folders": folder_list,
-        "files": file_list,
-    },
-    "explanations": {
-        "folders": explain_folders(folder_list),
-        "files": explain_files(file_list),
-    },
-    "readme": {
-        "exists": readme is not None,
-        "content_preview": readme[:1000] if readme else None
-    },
-    "issues": {
-        "count": len(issues),
-        "items": issues
-    },
-    "contribution_ideas": contribution_ideas
-}
+        "overview": metadata,
 
+        "project_structure": {
+            "guide": (
+                "If you’re new, start with documentation or examples "
+                "before exploring core code."
+            ),
+            "groups": project_structure
+        },
+
+        "structure": {
+            "folders": folder_list,
+            "files": file_list
+        },
+
+        "explanations": {
+            "folders": explain_folders(folder_list),
+            "files": explain_files(file_list),
+        },
+
+        "readme": {
+            "exists": readme is not None,
+            "content_preview": readme[:1000] if readme else None
+        },
+
+        "issues": {
+            "count": len(issues),
+            "items": issues
+        },
+
+        "contribution_paths": contribution_paths
+    }
