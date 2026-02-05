@@ -2,70 +2,63 @@
 
 **Read a repo before you touch it.**
 
-reporead is a beginner-friendly tool that helps you understand a GitHub repository *before* making your first open-source contribution.
-
-Instead of feeling overwhelmed by folders, files, and unfamiliar codebases, reporead explains what a project contains, where beginners should start, and how they can contribute safely.
+reporead helps beginners understand a GitHub repository *before* making their first open-source contribution.  
+It explains project structure, surfaces beginner-friendly issues, and generates contribution paths when no issues exist.
 
 ---
 
-## ✨ What reporead does
+## ✨ Features
 
-Given a public GitHub repository URL, reporead:
-
-- 🔍 Fetches repository metadata (name, stars, forks, language)
-- 🗂 Analyzes the project’s folder and file structure
-- 🧭 Explains what folders and files are used for (in simple terms)
-- 📄 Detects and previews the README
-- 🐛 Fetches **Good First Issues** if they exist
-- 💡 Generates **AI-guided contribution paths** when no beginner issues exist
-
-The goal is to **reduce confusion**, **lower the barrier to entry**, and help new contributors start with confidence.
+- 🔍 Analyze any public GitHub repository
+- 🗂 Explain folders and files in simple terms
+- 📄 Detect and preview README
+- 🐛 Fetch **Good First Issues** (if available)
+- 💡 Generate contribution paths when no beginner issues exist
+- 🧭 Beginner-first, low-overwhelm design
 
 ---
 
 ## 🧠 How it works
 
-1. You paste a GitHub repository URL  
-2. The backend fetches metadata, structure, README, and issues using GitHub APIs  
-3. The frontend presents:
-   - A clean project overview
-   - Simplified project structure
-   - Beginner-friendly contribution opportunities
+1. Paste a GitHub repository URL  
+2. Backend fetches metadata, structure, README, and issues  
+3. Frontend presents:
+   - Project overview
+   - Simplified structure
+   - Contribution opportunities
 
-### Contribution logic
-- If **Good First Issues exist** → show and link them
-- If **no beginner issues exist** → generate contribution paths (docs, examples, tests, etc.)
+If beginner issues exist → they are shown and linked  
+If no issues exist → contribution paths are generated
 
 ---
 
 ## 🛠 Tech Stack
 
-### Frontend
+**Frontend**
 - HTML
 - CSS
 - Vanilla JavaScript
 
-### Backend
+**Backend**
 - Python
 - FastAPI
-- httpx (for async GitHub API calls)
+- httpx (GitHub API)
 
 ---
 
 ## ⚠️ Python Version Compatibility (IMPORTANT)
 
-> **reporead will NOT run on all Python versions.**
+> This project will **NOT** work on all Python versions.
 
-### ✅ Supported versions
-- **Python 3.10**
-- **Python 3.11 (recommended)**
+### ✅ Supported
+- Python **3.10**
+- Python **3.11** (recommended)
 
-### ❌ Not supported
+### ❌ Not Supported
 - Python 3.12
 - Python 3.13
 - Python 3.14+
 
-FastAPI currently depends on Pydantic internals that break on Python 3.12+.
+FastAPI + Pydantic currently break on Python 3.12+.
 
 If you see errors like:
-
