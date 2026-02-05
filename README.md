@@ -7,18 +7,18 @@ It explains project structure, surfaces beginner-friendly issues, and generates 
 
 ---
 
-## ✨ Features
+##  Features
 
-- 🔍 Analyze any public GitHub repository
-- 🗂 Explain folders and files in simple terms
-- 📄 Detect and preview README
-- 🐛 Fetch **Good First Issues** (if available)
-- 💡 Generate contribution paths when no beginner issues exist
-- 🧭 Beginner-first, low-overwhelm design
+-  Analyze any public GitHub repository
+-  Explain folders and files in simple terms
+-  Detect and preview README
+-  Fetch **Good First Issues** (if available)
+-  Generate contribution paths when no beginner issues exist
+-  Beginner-first, low-overwhelm design
 
 ---
 
-## 🧠 How it works
+##  How it works
 
 1. Paste a GitHub repository URL  
 2. Backend fetches metadata, structure, README, and issues  
@@ -46,15 +46,15 @@ If no issues exist → contribution paths are generated
 
 ---
 
-## ⚠️ Python Version Compatibility (IMPORTANT)
+##  Python Version Compatibility (IMPORTANT)
 
 > This project will **NOT** work on all Python versions.
 
-### ✅ Supported
+###  Supported
 - Python **3.10**
 - Python **3.11** (recommended)
 
-### ❌ Not Supported
+###  Not Supported
 - Python 3.12
 - Python 3.13
 - Python 3.14+
