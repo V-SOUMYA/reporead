@@ -1,6 +1,6 @@
 # reporead
 
-**Read a repo before you touch it.**
+**Read a repo before you touch it**
 
 reporead helps beginners understand a GitHub repository *before* making their first open-source contribution.  
 It explains project structure, surfaces beginner-friendly issues, and generates contribution paths when no issues exist.
