@@ -23,8 +23,9 @@ body {
 
   background: radial-gradient(
   circle at center,
-  #4e5132 0%,
-  #525722 10%,
+  #5b5e35 0%,
+  #5e6533 2%,
+  #495020 14%,
   #2e320a 20%,
   #000 40%
   );
@@ -60,7 +61,7 @@ body {
 .hero h1 {
     font-size: 64px;
     margin-bottom: 16px;
-    font-weight: 700;
+    font-weight: 500;
      font-family: "Montserrat", sans-serif;
     color: #fff;
 }
@@ -108,7 +109,7 @@ body {
 .repo-input:hover,
 .repo-input:focus {
     border: 2px solid #8BAE66;
-    box-shadow: 0 0 0 6px rgba(102, 121, 3, 0.25);
+    box-shadow: 0 0 0 6px rgba(114, 129, 38, 0.25);
     background-color: #0f0f0f;
 }
 
@@ -143,7 +144,7 @@ button:hover {
 /* HINT */
 .hint {
     font-size: 15px;
-    color: #666;
+    /* color: #666; */
     margin-top: 8px;
     opacity: 0.6;
     color: #A6B28B;
@@ -254,7 +255,7 @@ button:hover {
   cursor: pointer;
   overflow: hidden;
 
-  height: 44px;              /* compact height */
+  height: 14px;              /* compact height */
   min-width: 200px;
   padding: 0;
 }
@@ -278,22 +279,36 @@ button:hover {
 }
 
 /* button text */
-.analyze-btn span {
+.analyze-btn {
   position: relative;
-  z-index: 2;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 
-  padding: 12px 20px;        /* reduced top & bottom */
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  transition: all 0.3s ease-in-out;
+  background: #0d0d0d;
+  border: 1px solid #333;
+  border-radius: 10px;
+
+  cursor: pointer;
+  overflow: hidden;
+
+  padding: 20px 28px;   /* ✅ THIS defines button size */
+  min-width: 220px;
 }
+
 
 /* text animation + color change */
 .analyze-btn:hover span {
   color: black;
   animation: scaleUp 0.3s ease-in-out;
+}
+
+.analyze-btn span {
+  z-index: 2;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
 /* animation */
@@ -308,3 +323,95 @@ button:hover {
     transform: scale(1);
   }
 }
+
+
+#result {
+  max-width: 720px;
+  margin: 60px auto 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Cards */
+.card {
+  background: rgba(13, 13, 13, 0.85);
+  border: 1px solid #222;
+  border-radius: 14px;
+  padding: 22px;
+  backdrop-filter: blur(8px);
+  position: relative;
+  border-radius: 16px;
+  padding: 1px;
+  overflow: hidden;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.muted {
+  opacity: 0.65;
+  font-size: 14px;
+}
+
+/* ---------- GLOW CARD EFFECT ---------- */
+
+.glow-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(
+    90deg,
+    #5f6330,
+    #9BC264,
+    #5f6330
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: spin 12s linear infinite;
+}
+
+.glow-card:hover::before {
+  opacity: 1;
+}
+
+.card-content {
+  position: relative;
+  z-index: 1;
+  background: rgba(13, 13, 13, 0.92);
+  border-radius: 14px;
+  padding: 24px;
+  border: 1px solid #222;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+details {
+  margin-top: 12px;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+details ul {
+  margin: 6px 0 0 16px;
+  padding: 0;
+}
+
+details li {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+
