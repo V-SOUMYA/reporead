@@ -57,32 +57,18 @@ async def analyze_repo(payload: dict):
         )
 
     return {
-        "overview": metadata,
+    "overview": metadata,
 
-        "project_structure": {
-            "guide": "If you’re new, start with documentation or examples before exploring core code.",
-            "groups": project_structure
-        },
+    "project_structure": {
+        "guide": "Start with frontend pages to understand user flow, then explore backend logic.",
+        "sections": project_structure
+    },
 
-        "structure": {
-            "folders": folder_list,
-            "files": file_list
-        },
+    "issues": {
+        "count": len(issues),
+        "items": issues
+    },
 
-        "explanations": {
-            "folders": explain_folders(folder_list),
-            "files": explain_files(file_list),
-        },
+    "contribution_ideas": contribution_ideas
+}
 
-        "readme": {
-            "exists": readme is not None,
-            "content_preview": readme[:1000] if readme else None
-        },
-
-        "issues": {
-            "count": len(issues),
-            "items": issues
-        },
-
-        "contribution_paths": contribution_paths
-    }
