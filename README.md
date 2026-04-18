@@ -61,4 +61,4 @@ If no issues exist → contribution paths are generated
 
 FastAPI + Pydantic currently break on Python 3.12+.
 
-If you see errors like:
+
